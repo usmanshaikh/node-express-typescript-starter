@@ -37,7 +37,7 @@ temp
 *.save
 *.save.*
 
-/tests
+/tests1
 /src1
 .dockerignore
 .env.example

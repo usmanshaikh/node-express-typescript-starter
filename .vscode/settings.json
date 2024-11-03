@@ -1,5 +1,5 @@
 {
-  "editor.formatOnSave": true,
+  // "editor.formatOnSave": true,
   "javascript.validate.enable": true,
   "typescript.preferences.importModuleSpecifier": "relative",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
