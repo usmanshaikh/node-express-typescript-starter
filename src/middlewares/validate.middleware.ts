@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ObjectSchema } from 'joi';
+import { AppError } from '../utils/AppError';
 
 interface Schema {
   body?: ObjectSchema;
@@ -39,7 +40,8 @@ const validate = (schema: Schema) => {
 
     // If there are any errors, return them
     if (errors.length > 0) {
-      return res.status(400).json({ errors: errors.map((err) => err.message) });
+      const errorMessage = errors.map((err) => err.message).join(', ');
+      return next(new AppError(`Validation error: ${errorMessage}`, 400));
     }
 
     // Assign validated values back to req

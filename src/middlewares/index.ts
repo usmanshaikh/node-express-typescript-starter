@@ -1,3 +1,5 @@
-import validate from "./validate";
+import validate from './validate.middleware';
+import errorHandler from './error.middleware';
+import catchAsync from './catchAsync.middleware';
 
-export {validate}
+export { validate, errorHandler, catchAsync };
