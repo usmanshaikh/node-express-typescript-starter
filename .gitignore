@@ -37,8 +37,6 @@ temp
 *.save
 *.save.*
 
-/tests1
-/src1
 .dockerignore
 .env.example
 docker-compose.yml
