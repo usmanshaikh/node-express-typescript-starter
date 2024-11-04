@@ -5,6 +5,8 @@ const errorHandler = (err: AppError, req: Request, res: Response, next: NextFunc
   // Set default status code and message
   err.statusCode = err.statusCode || 500;
   err.message = err.message || 'Internal Server Error';
+  
+  res.locals.errorMessage = err.message;
 
   // Send response to the client
   res.status(err.statusCode).json({
