@@ -1,12 +1,14 @@
 import morgan from 'morgan';
-import logger from '../utils/logger';
+import logger from '../config/logger';
+import config from '../config/config';
 
 // Create a custom token for error messages
 morgan.token('message', (req, res:any) => res.locals.errorMessage || '');
 
 // Define response formats
-const successResponseFormat = ':method :url :status - :response-time ms';
-const errorResponseFormat = ':method :url :status - :response-time ms - message: :message';
+const getIpFormat = () => (config.env === 'production' ? ':remote-addr - ' : '');
+const successResponseFormat = `${getIpFormat()}:method :url :status - :response-time ms`;
+const errorResponseFormat = `${getIpFormat()}:method :url :status - :response-time ms - message: :message`;
 
 // Success handler - log successful responses
 export const successHandler = morgan(successResponseFormat, {
