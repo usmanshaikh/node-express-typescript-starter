@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import router from './routes';
-import { errorHandler } from './middlewares';
+import { errorHandler, rateLimiter } from './middlewares';
 import { morgan } from './middlewares';
 
 // Load environment variables from .env file
@@ -18,6 +18,9 @@ app.use(morgan.errorHandler);
 // Middleware setup
 app.use(cors()); // Enabling CORS
 app.use(express.json()); // Middleware for parsing JSON request bodies
+
+// RateLimiter middleware
+app.use(rateLimiter);
 
 // Application routes
 app.use('/', router);
