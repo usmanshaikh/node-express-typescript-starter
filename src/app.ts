@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import router from './routes';
 import { errorHandler, rateLimiter } from './middlewares';
 import { morgan } from './middlewares';
+import helmet from 'helmet';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -21,6 +22,9 @@ app.use(express.json()); // Middleware for parsing JSON request bodies
 
 // RateLimiter middleware
 app.use(rateLimiter);
+
+// Use Helmet to secure Express headers
+app.use(helmet());
 
 // Application routes
 app.use('/', router);
