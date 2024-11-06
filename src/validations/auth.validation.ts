@@ -1,40 +1,14 @@
 import Joi from 'joi';
 
-// Just for example
 export const register = {
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required(),
+    password: Joi.string()
+      .required()
+      .min(6)
+      .pattern(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/)
+      .message('Password must contain at least one letter and one number'),
     name: Joi.string().required(),
-  }),
-  params: Joi.object({
-    userId: Joi.string().length(24).required(),
-  }),
-  query: Joi.object({
-    search: Joi.string()
-      .optional()
-      .description('Search term to filter products by name or description.'),
-    sort: Joi.string()
-      .valid('asc', 'desc')
-      .optional()
-      .description(
-        'Sort the results by price in ascending or descending order.',
-      ),
-    page: Joi.number()
-      .integer()
-      .min(1)
-      .optional()
-      .description(
-        'Page number for pagination. Defaults to 1 if not specified.',
-      ),
-    limit: Joi.number()
-      .integer()
-      .min(1)
-      .max(100)
-      .optional()
-      .description(
-        'Number of products to return per page. Defaults to 10 if not specified.',
-      ),
   }),
 };
 
@@ -44,3 +18,53 @@ export const login = {
     password: Joi.string().required(),
   }),
 };
+
+export const logout = {
+  body: Joi.object().keys({
+    refreshToken: Joi.string().required(),
+  }),
+};
+
+export const refreshTokens = {
+  body: Joi.object().keys({
+    refreshToken: Joi.string().required(),
+  }),
+};
+
+// // Just for example
+// export const register = {
+//   body: Joi.object().keys({
+//     email: Joi.string().required().email(),
+//     password: Joi.string().required(),
+//     name: Joi.string().required(),
+//   }),
+//   params: Joi.object({
+//     userId: Joi.string().length(24).required(),
+//   }),
+//   query: Joi.object({
+//     search: Joi.string()
+//       .optional()
+//       .description('Search term to filter products by name or description.'),
+//     sort: Joi.string()
+//       .valid('asc', 'desc')
+//       .optional()
+//       .description(
+//         'Sort the results by price in ascending or descending order.',
+//       ),
+//     page: Joi.number()
+//       .integer()
+//       .min(1)
+//       .optional()
+//       .description(
+//         'Page number for pagination. Defaults to 1 if not specified.',
+//       ),
+//     limit: Joi.number()
+//       .integer()
+//       .min(1)
+//       .max(100)
+//       .optional()
+//       .description(
+//         'Number of products to return per page. Defaults to 10 if not specified.',
+//       ),
+//   }),
+// };
