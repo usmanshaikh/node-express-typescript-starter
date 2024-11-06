@@ -2,8 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { authService, userService } from '../services';
 import { catchAsync } from '../middlewares';
-import { generateAuthTokens } from '../utils/jwt.utils';
-import { sendResponse } from '../helpers';
+import { sendResponse, jwtHelper } from '../helpers';
 
 export const register = catchAsync(async (req: Request, res: Response) => {
   const user = await userService.createUser(req.body);
@@ -18,7 +17,7 @@ export const register = catchAsync(async (req: Request, res: Response) => {
 export const login = catchAsync(async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
-  const tokens = await generateAuthTokens(user.id);
+  const tokens = await jwtHelper.generateAuthTokens(user.id);
   res.send({ user, tokens });
 });
 

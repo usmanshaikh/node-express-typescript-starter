@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyJwtToken } from '../utils/jwt.utils';
 import { Types } from 'mongoose';
+import { jwtHelper } from '../helpers';
 
 // Extend the Request interface to add a `user` property
 interface CustomRequest extends Request {
@@ -24,7 +24,7 @@ const authenticateJWT = (
     return res.status(401).json({ message: 'Authorization token required' });
   }
 
-  const payload = verifyJwtToken(token);
+  const payload = jwtHelper.verifyJwtToken(token);
 
   if (!payload || typeof payload.sub !== 'string') {
     return res.status(403).json({ message: 'Invalid or expired token' });

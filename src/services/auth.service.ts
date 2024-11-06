@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { User } from '../models';
 import { AppError } from '../utils/AppError';
 import redisClient from '../config/redisClient';
-import { generateAuthTokens, verifyJwtToken } from '../utils/jwt.utils';
+import { jwtHelper } from '../helpers';
 
 export const loginUserWithEmailAndPassword = async (
   email: string,
@@ -28,13 +28,13 @@ export const refreshAuth = async (refreshToken: string) => {
   }
 
   // Verify the refresh token
-  const payload = verifyJwtToken(refreshToken);
+  const payload = jwtHelper.verifyJwtToken(refreshToken);
   if (!payload || !payload.sub) {
     throw new AppError(StatusCodes.FORBIDDEN, 'Invalid or expired refresh token');
   }
 
   // Generate new access and refresh tokens
-  const newTokens = await generateAuthTokens(payload.sub);
+  const newTokens = await jwtHelper.generateAuthTokens(payload.sub);
 
   // Blacklist the old refresh token
   await redisClient.set(refreshToken, 'blacklisted', {
