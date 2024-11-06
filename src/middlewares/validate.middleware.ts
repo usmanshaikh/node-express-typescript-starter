@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ObjectSchema } from 'joi';
-import { AppError } from '../utils/AppError';
 import { StatusCodes } from 'http-status-codes';
+import { ApiError } from '../helpers';
 
 interface Schema {
   body?: ObjectSchema;
@@ -42,7 +42,7 @@ const validate = (schema: Schema) => {
     // If there are any errors, return them
     if (errors.length > 0) {
       const errorMessage = errors.map((err) => err.message).join(', ');
-      return next(new AppError(StatusCodes.BAD_REQUEST, `Validation error: ${errorMessage}`));
+      return next(new ApiError(StatusCodes.BAD_REQUEST, `Validation error: ${errorMessage}`));
     }
 
     // Assign validated values back to req

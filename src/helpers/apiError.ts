@@ -1,4 +1,4 @@
-export class AppError extends Error {
+export default class ApiError  extends Error {
   public statusCode: number;
   public isOperational: boolean;
 

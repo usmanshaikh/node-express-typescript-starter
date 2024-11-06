@@ -1,4 +1,5 @@
-import { sendResponse } from './responseHelper';
-import * as jwtHelper from './jwtHelper';
+import { sendResponse } from './response.helper';
+import * as jwtHelper from './jwt.helper';
+import ApiError from './apiError';
 
-export { sendResponse, jwtHelper };
+export { sendResponse, jwtHelper, ApiError };

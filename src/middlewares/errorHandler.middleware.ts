@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { AppError } from '../utils/AppError';
+import { ApiError } from '../helpers';
 
 const errorHandler = (
-  err: AppError,
+  err: ApiError,
   req: Request,
   res: Response,
   next: NextFunction,

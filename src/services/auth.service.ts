@@ -1,8 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { User } from '../models';
-import { AppError } from '../utils/AppError';
 import redisClient from '../config/redisClient';
-import { jwtHelper } from '../helpers';
+import { ApiError, jwtHelper } from '../helpers';
 
 export const loginUserWithEmailAndPassword = async (
   email: string,
@@ -10,7 +9,7 @@ export const loginUserWithEmailAndPassword = async (
 ) => {
   const user = await User.findOne({ email }).select('+password');
   if (!user || !(await user.comparePassword(password))) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
+    throw new ApiError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
   }
   return user;
 };
@@ -24,13 +23,13 @@ export const refreshAuth = async (refreshToken: string) => {
   // Check if the refresh token is blacklisted
   const isBlacklisted = await redisClient.get(refreshToken);
   if (isBlacklisted === 'blacklisted') {
-    throw new AppError(StatusCodes.FORBIDDEN, 'Refresh token is invalid');
+    throw new ApiError(StatusCodes.FORBIDDEN, 'Refresh token is invalid');
   }
 
   // Verify the refresh token
   const payload = jwtHelper.verifyJwtToken(refreshToken);
   if (!payload || !payload.sub) {
-    throw new AppError(StatusCodes.FORBIDDEN, 'Invalid or expired refresh token');
+    throw new ApiError(StatusCodes.FORBIDDEN, 'Invalid or expired refresh token');
   }
 
   // Generate new access and refresh tokens
