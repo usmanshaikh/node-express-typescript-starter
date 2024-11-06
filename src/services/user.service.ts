@@ -1,7 +1,8 @@
+import { StatusCodes } from 'http-status-codes';
+import { User } from '../models';
 import { AppError } from '../utils/AppError';
 
 export const getUserById = async (id: string) => {
-  // throw new AppError('User not found', 404);
   return { user: 'Usman Shaikh' };
 };
 
@@ -10,5 +11,11 @@ export const createUser = async (userData: {
   password: string;
   name: string;
 }) => {
-  return { user: 'Usman Shaikh' };
+  const existingUser = await User.findOne({ email: userData.email });
+  if (existingUser) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Email already taken');
+  }
+  const newUser = new User(userData);
+  await newUser.save();
+  return newUser;
 };

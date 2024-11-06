@@ -1,6 +1,7 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+import { removeFieldsPlugin } from './plugins';
 
 export interface IUser extends Document {
   email: string;
@@ -67,6 +68,14 @@ const userSchema: Schema<IUser> = new Schema(
     timestamps: true,
   },
 );
+
+userSchema.plugin(removeFieldsPlugin, [
+  '__v',
+  'password',
+  'createdAt',
+  'updatedAt',
+  'passwordChangedAt',
+]);
 
 // Middleware to hash the password before saving
 userSchema.pre<IUser>('save', async function (next) {

@@ -3,10 +3,16 @@ import { StatusCodes } from 'http-status-codes';
 import { authService, userService } from '../services';
 import { catchAsync } from '../middlewares';
 import { generateAuthTokens } from '../utils/jwt.utils';
+import { sendResponse } from '../helpers';
 
 export const register = catchAsync(async (req: Request, res: Response) => {
   const user = await userService.createUser(req.body);
-  res.status(StatusCodes.CREATED).send(user);
+  sendResponse({
+    res,
+    statusCode: StatusCodes.CREATED,
+    message: 'User registered successfully.',
+    data: user,
+  });
 });
 
 export const login = catchAsync(async (req: Request, res: Response) => {
