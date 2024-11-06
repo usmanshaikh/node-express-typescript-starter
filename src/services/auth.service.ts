@@ -24,13 +24,13 @@ export const refreshAuth = async (refreshToken: string) => {
   // Check if the refresh token is blacklisted
   const isBlacklisted = await redisClient.get(refreshToken);
   if (isBlacklisted === 'blacklisted') {
-    throw new AppError(403, 'Refresh token is invalid');
+    throw new AppError(StatusCodes.FORBIDDEN, 'Refresh token is invalid');
   }
 
   // Verify the refresh token
   const payload = verifyJwtToken(refreshToken);
   if (!payload || !payload.sub) {
-    throw new AppError(403, 'Invalid or expired refresh token');
+    throw new AppError(StatusCodes.FORBIDDEN, 'Invalid or expired refresh token');
   }
 
   // Generate new access and refresh tokens
@@ -38,12 +38,12 @@ export const refreshAuth = async (refreshToken: string) => {
 
   // Blacklist the old refresh token
   await redisClient.set(refreshToken, 'blacklisted', {
-    EX: 7 * 24 * 60 * 60, // Set 7 days expiration for the blacklisted token
+    EX: 24 * 60 * 60, // Set 1 day expiration
   });
 
   // Save the new refresh token in Redis as valid
   await redisClient.set(newTokens.refresh.token, 'valid', {
-    EX: 7 * 24 * 60 * 60, // Set 7 days expiration for the new refresh token
+    EX: 7 * 24 * 60 * 60, // Set 7 days expiration
   });
 
   return newTokens;
