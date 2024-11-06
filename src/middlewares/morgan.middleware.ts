@@ -3,10 +3,11 @@ import logger from '../config/logger';
 import config from '../config/config';
 
 // Create a custom token for error messages
-morgan.token('message', (req, res:any) => res.locals.errorMessage || '');
+morgan.token('message', (req, res: any) => res.locals.errorMessage || '');
 
 // Define response formats
-const getIpFormat = () => (config.env === 'production' ? ':remote-addr - ' : '');
+const getIpFormat = () =>
+  config.env === 'production' ? ':remote-addr - ' : '';
 const successResponseFormat = `${getIpFormat()}:method :url :status - :response-time ms`;
 const errorResponseFormat = `${getIpFormat()}:method :url :status - :response-time ms - message: :message`;
 

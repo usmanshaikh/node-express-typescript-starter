@@ -26,7 +26,6 @@ const logger = winston.createLogger({
   ],
 });
 
-
 if (config.env === 'development') {
   logger.add(
     new winston.transports.Console({
