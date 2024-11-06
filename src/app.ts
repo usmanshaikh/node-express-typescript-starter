@@ -1,40 +1,48 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import router from './routes';
-import { errorHandler, rateLimiter } from './middlewares';
-import { morgan } from './middlewares';
 import helmet from 'helmet';
+import compression from 'compression';
+import { errorHandler, rateLimiter, morgan } from './middlewares';
+import router from './routes';
 
 // Load environment variables from .env file
 dotenv.config();
 
 const app = express();
 
-// Morgan middleware for logging successful requests
+// Middleware Setup
+// Morgan middleware for logging requests and error responses
 app.use(morgan.successHandler);
-// Morgan middleware for logging error responses
 app.use(morgan.errorHandler);
 
-// Middleware setup
-app.use(cors()); // Enabling CORS
+// Body parsing middleware
 app.use(express.json()); // Middleware for parsing JSON request bodies
 
-// RateLimiter middleware
+// CORS middleware to enable cross-origin requests
+app.use(cors());
+
+// Static file serving from 'public' folder
+app.use(express.static('public'));
+
+// Rate limiter to prevent abuse and overload
 app.use(rateLimiter);
 
-// Use Helmet to secure Express headers
+// Security middleware to set HTTP headers (helmet)
 app.use(helmet());
 
-// Application routes
+// Gzip compression to optimize response size
+app.use(compression());
+
+// Routes
 app.use('/', router);
 
-// Basic route for testing
+// Basic route for testing API accessibility
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to the Node Express TypeScript server!');
 });
 
-// Error handling middleware
+// Error Handling Middleware (catch and handle errors globally)
 app.use(errorHandler);
 
 export default app;
