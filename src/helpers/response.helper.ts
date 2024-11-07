@@ -11,11 +11,12 @@ export const sendResponse = ({
   res,
   statusCode,
   message,
-  data = null,
+  data,
 }: ResponseOptions) => {
-  res.status(statusCode).json({
+  const response: any = {
     status: statusCode >= 400 ? 'error' : 'success',
     message,
-    data,
-  });
+    ...(data != null && { data }), // Only include 'data' if it's not null or undefined
+  };
+  res.status(statusCode).json(response);
 };
