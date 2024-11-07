@@ -5,24 +5,10 @@ import { userValidation } from '../validations';
 
 const router = express.Router();
   
-/* prettier-ignore-start */
 router
   .route('/:userId')
-  .get(
-    authenticateJWT,
-    validate(userValidation.getUser),
-    userController.getUser,
-  )
-  .patch(
-    authenticateJWT,
-    validate(userValidation.updateUser),
-    userController.updateUser,
-  )
-  .delete(
-    authenticateJWT,
-    validate(userValidation.deleteUser),
-    userController.deleteUser,
-  );
-/* prettier-ignore-end */
+  .get(authenticateJWT, validate(userValidation.getUser), userController.getUser)
+  .patch(authenticateJWT, validate(userValidation.updateUser), userController.updateUser)
+  .delete(authenticateJWT, validate(userValidation.deleteUser), userController.deleteUser);
 
 export default router;
