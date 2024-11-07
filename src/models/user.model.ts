@@ -2,6 +2,7 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 import { removeFieldsPlugin } from './plugins';
+import { MESSAGES } from '../constants';
 
 export interface IUser extends Document {
   email: string;
@@ -26,7 +27,7 @@ const userSchema: Schema<IUser> = new Schema(
       lowercase: true,
       validate: {
         validator: (value: string) => validator.isEmail(value),
-        message: 'Please enter a valid email address',
+        message: MESSAGES.ENTER_VALID_EMAIL,
       },
       index: true, // Add index for faster queries
     },
@@ -41,7 +42,7 @@ const userSchema: Schema<IUser> = new Schema(
           const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
           return passwordRegex.test(value);
         },
-        message: 'Password must contain at least one letter and one number',
+        message: MESSAGES.PASSWORD_REQUIREMENTS,
       },
     },
     name: {

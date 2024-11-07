@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Types } from 'mongoose';
 import { jwtHelper } from '../helpers';
+import { MESSAGES } from '../constants';
 
 // Extend the Request interface to add a `user` property
 interface CustomRequest extends Request {
@@ -15,19 +16,19 @@ const authenticateJWT = (
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).json({ message: 'Authorization header required' });
+    return res.status(401).json({ message: MESSAGES.AUTH_HEADER_REQUIRED });
   }
 
   const token = authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ message: 'Authorization token required' });
+    return res.status(401).json({ message: MESSAGES.AUTH_TOKEN_REQ });
   }
 
   const payload = jwtHelper.verifyJwtToken(token);
 
   if (!payload || typeof payload.sub !== 'string') {
-    return res.status(403).json({ message: 'Invalid or expired token' });
+    return res.status(403).json({ message: MESSAGES.INVALID_TOKEN });
   }
 
   req.user = new Types.ObjectId(payload.sub);

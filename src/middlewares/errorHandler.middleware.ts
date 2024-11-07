@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ApiError } from '../helpers';
+import { MESSAGES } from '../constants';
 
 const errorHandler = (
   err: ApiError,
@@ -9,7 +10,7 @@ const errorHandler = (
 ) => {
   // Set default status code and message
   err.statusCode = err.statusCode || 500;
-  err.message = err.message || 'Internal Server Error';
+  err.message = err.message || MESSAGES.INTERNAL_SERVER_ERROR;
 
   res.locals.errorMessage = err.message;
 

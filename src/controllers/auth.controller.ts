@@ -3,13 +3,14 @@ import { StatusCodes } from 'http-status-codes';
 import { authService, userService } from '../services';
 import { catchAsync } from '../middlewares';
 import { sendResponse, jwtHelper } from '../helpers';
+import { MESSAGES } from '../constants';
 
 export const register = catchAsync(async (req: Request, res: Response) => {
   const user = await userService.createUser(req.body);
   sendResponse({
     res,
     statusCode: StatusCodes.CREATED,
-    message: 'User successfully registered.',
+    message: MESSAGES.USER_REGISTERED,
     data: user,
   });
 });
@@ -21,7 +22,7 @@ export const login = catchAsync(async (req: Request, res: Response) => {
   sendResponse({
     res,
     statusCode: StatusCodes.OK,
-    message: 'Login successful.',
+    message: MESSAGES.LOGIN_SUCCESS,
     data: { user, tokens },
   });
 });
@@ -32,7 +33,7 @@ export const logout = catchAsync(async (req: Request, res: Response) => {
   sendResponse({
     res,
     statusCode: StatusCodes.OK,
-    message: 'Logout successful.',
+    message: MESSAGES.LOGOUT_SUCCESS,
   });
 });
 
@@ -42,7 +43,7 @@ export const refreshTokens = catchAsync(async (req: Request, res: Response) => {
   sendResponse({
     res,
     statusCode: StatusCodes.OK,
-    message: 'Tokens refreshed successfully. New access and refresh tokens generated.',
+    message: MESSAGES.TOKENS_REFRESHED_SUCCESS,
     data: tokens,
   });
 });
