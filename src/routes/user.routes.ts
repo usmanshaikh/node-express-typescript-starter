@@ -1,11 +1,28 @@
 import express from 'express';
 import { userController } from '../controllers';
-import { authenticateJWT } from '../middlewares';
+import { authenticateJWT, validate } from '../middlewares';
+import { userValidation } from '../validations';
 
 const router = express.Router();
-
+  
 /* prettier-ignore-start */
-router.get('/:id', authenticateJWT, userController.getUser);
+router
+  .route('/:userId')
+  .get(
+    authenticateJWT,
+    validate(userValidation.getUser),
+    userController.getUser,
+  )
+  .patch(
+    authenticateJWT,
+    validate(userValidation.updateUser),
+    userController.updateUser,
+  )
+  .delete(
+    authenticateJWT,
+    validate(userValidation.deleteUser),
+    userController.deleteUser,
+  );
 /* prettier-ignore-end */
 
 export default router;
