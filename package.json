@@ -17,9 +17,10 @@
     "eslint": "eslint . --ext .js,.ts",
     "upgrade": "npm update --save-dev && npm update --save",
     "upgrade-latest": "npx npm-check-updates -u && npm install ",
-    "test": "jest --forceExit --detectOpenHandles --coverage --verbose"
+    "test": "cross-env NODE_ENV=test jest --forceExit --detectOpenHandles --coverage --verbose"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.2.0",
     "@types/http-status": "^1.1.2",
     "axios": "^1.6.5",
     "bcrypt": "^5.1.1",
@@ -60,6 +61,7 @@
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
     "colors": "^1.4.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "eslint": "^8.56.0",
     "jest": "^29.7.0",
