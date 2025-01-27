@@ -38,7 +38,5 @@ temp
 *.save.*
 
 .dockerignore
-.env.example
 docker-compose.yml
 Dockerfile
-jest.config.js
