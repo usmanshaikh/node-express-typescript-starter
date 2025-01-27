@@ -1,109 +1,295 @@
 ## Node Express TypeScript Starter
+
 Node Express TypeScript Starter is a boilerplate for building scalable applications with Node.js and Express. It includes essential packages like Axios, Mongoose, JWT, and testing support using Jest and Supertest. The project is also configured with ESLint and Prettier for consistent code quality.
 
-## Project Structure
+---
 
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Project Structure](#project-structure)
+- [Folder Descriptions](#folder-descriptions)
+- [Scripts](#scripts)
+- [Contributing](#contributing)
+
+---
+
+## Project Overview
+This project serves as a scalable starting point for building RESTful APIs with Node.js, Express, and TypeScript. It is ideal for rapid development of web services with essential security, logging, and testing features. The boilerplate includes support for user authentication, JWT tokens, and database connections with MongoDB and Redis.
+
+---
+
+## Technologies Used
+- **Node.js**: Backend runtime environment.
+- **TypeScript**: Strongly typed programming language for better maintainability.
+- **MongoDB**: NoSQL database for data storage and management.
+- **Redis**: In-memory data store used for caching and session management.
+- **Docker**: Containerization platform for consistent deployments across environments.
+- **Jest**: Testing framework for unit and integration tests.
+- **Morgan**: HTTP request logger middleware for better monitoring.
+- **ESLint** & **Prettier**: Code quality and formatting tools to maintain consistent code style.
+
+---
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <project-folder>
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create an `.env` file using `.env.example` as a template:
+   ```bash
+   cp .env.example .env
+   ```
+4. Run the application:
+   ```bash
+   npm start
+   ```
+
+---
+
+## Setting Up Redis
+
+To run Redis locally, you can follow the steps below based on your operating system.
+
+### For Windows Users
+
+1. Install Redis on Windows:
+   Follow the official guide to install Redis on Windows: [Install Redis on Windows](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/)
+
+2. Install WSL (Windows Subsystem for Linux) on Windows:
+   To install a Linux distribution like Ubuntu on Windows, follow the guide here: [Install Linux on Windows with WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+
+3. Run Redis on WSL:
+   - Open CMD and run:
+     ```bash
+     wsl -d Ubuntu
+     ```
+   - Start the Redis server:
+     ```bash
+     sudo service redis-server start
+     ```
+   - When prompted, use the password: `usman`
+   - Start the Redis CLI to interact with Redis:
+     ```bash
+     redis-cli
+     ```
+   - Check if Redis is running:
+     ```bash
+     ping
+     ```
+
+---
+
+## Project Structure
+```plaintext
+.vscode/
+build/
+coverage/
+logs/
+node_modules/
+src/
+tests/
+Dockerfile
+docker-compose.yml
+package.json
+README.md
 ```
-├── src
-│   ├── config          # Configuration for environment variables and app settings
-│   ├── controllers     # Request handlers (controllers) that handle business logic
-│   ├── middlewares     # Custom Express middlewares for authentication, error handling, etc.
-│   ├── models          # Database models and schemas (e.g., Mongoose models for MongoDB)
-│   ├── routes          # Route definitions, each file maps to a route
-│   ├── services        # Service layer for business logic and reusable functionality
-│   ├── utils           # Utility functions and helpers
-│   ├── validations     # Request validation schemas using Joi or similar library
-│   └── app.ts          # Main Express app configuration
-└── server.ts           # Server startup file
-```
+
+---
 
 ## Folder Descriptions
 
-- **`config/`**: Contains configuration files for environment variables and application settings.
-- **`controllers/`**: Contains the logic for handling HTTP requests and responses.
-- **`middlewares/`**: Holds custom middleware for tasks like authentication and error handling.
-- **`models/`**: Defines database schemas and models.
-- **`routes/`**: Organizes the different routes/endpoints for the API.
-- **`services/`**: Contains the service layer where most of the business logic resides.
-- **`utils/`**: A collection of helper functions and utilities.
-- **`validations/`**: Defines validation schemas for incoming request data using libraries like Joi.
+### `.vscode/`
+Configuration files for Visual Studio Code (e.g., settings, launch configurations).
 
-## Scripts
+### `build/`
+Compiled production build files (generated during build processes).
 
-- **`watch`**: 
-  ```bash
-  npx concurrently -k -p "[{name}]" -n "TypeScript,Node" -c "yellow.bold,cyan.bold,green.bold" "npm run watch-ts" "npm run watch-node"
-  ```
-  Runs both TypeScript and Node watchers concurrently, allowing for live reload during development.
+### `coverage/`
+Coverage reports for testing.
 
-- **`start`**: 
-  ```bash
-  npm run build && npm run serve
-  ```
-  This command first builds the project and then starts the server.
+### `logs/`
+Logs generated by the application (such as HTTP requests, errors, etc.).
 
-- **`serve`**: 
-  ```bash
-  node -r dotenv/config build/server.js
-  ```
-  Runs the compiled server file using Node.js, loading environment variables from the `.env` file.
+### `src/`
+Main application source code.
 
-- **`build`**: 
-  ```bash
-  npm run clean && npm run build-ts
-  ```
-  Cleans the previous build artifacts and then compiles TypeScript files into JavaScript.
+#### **`config/`**
+Application configuration files (e.g., `config.ts`, `logger.ts`, `redisClient.ts`).
 
-- **`watch-node`**: 
-  ```bash
-  nodemon -r dotenv/config build/server.js
-  ```
-  Uses Nodemon to automatically restart the Node server when changes are detected in the build directory.
+#### **`constants/`**
+Global constants, such as messages or application-wide values.
 
-- **`clean`**: 
-  ```bash
-  rimraf ./build
-  ```
-  Deletes the `build` directory, ensuring a clean slate for new builds.
+#### **`controllers/`**
+Controllers handle HTTP requests and business logic for routes.
 
-- **`build-ts`**: 
-  ```bash
-  tsc
-  ```
-  Compiles TypeScript files into JavaScript according to the `tsconfig.json` settings.
+#### **`database/`**
+Database-related logic and initialization files (including Mongoose setup).
 
-- **`watch-ts`**: 
-  ```bash
-  tsc -w
-  ```
-  Watches for changes in TypeScript files and recompiles them automatically.
+#### **`helpers/`**
+Utility functions like error handling, JWT helpers, and response formatting.
 
-- **`check`**: 
-  ```bash
-  tsc --noEmit
-  ```
-  Runs TypeScript's type checker without emitting any output files.
+#### **`middlewares/`**
+Custom middleware for authentication, error handling, rate limiting, and validation.
 
-- **`eslint`**: 
-  ```bash
-  eslint . --ext .js,.ts
-  ```
-  Lints the project files using ESLint, checking both JavaScript and TypeScript files.
+#### **`models/`**
+Database models and schema definitions.
 
-- **`upgrade`**: 
-  ```bash
-  npm update --save-dev && npm update --save
-  ```
-  Updates all dependencies to the latest versions, including both regular and dev dependencies.
+#### **`routes/`**
+Route handlers that define the API endpoints.
 
-- **`upgrade-latest`**: 
-  ```bash
-  npx npm-check-updates -u && npm install
-  ```
-  Uses `npm-check-updates` to update package versions in `package.json` and installs the latest versions.
+#### **`services/`**
+Business logic and service layers interacting with models and external services.
 
-- **`test`**: 
-  ```bash
-  jest --forceExit --detectOpenHandles --coverage --verbose
-  ```
-  Runs the Jest test suite with options to force exit after tests and collect coverage information.
+#### **`validations/`**
+Validation schemas and logic for API request payloads.
+
+#### **Main Files**
+- `app.ts`: Application entry point, including middleware and route registration.
+- `server.ts`: Server initialization and startup logic.
+
+### `tests/`
+Unit and integration tests, along with test setup files.
+
+### `.dockerignore`
+Files and folders ignored during Docker builds.
+
+### `.env` / `.env.example`
+Environment variable configurations.
+
+### `.eslintignore` / `.eslintrc`
+ESLint configuration and ignored files.
+
+### `.prettierignore` / `.prettierrc`
+Prettier configuration and ignored files.
+
+### `docker-compose.yml`
+Configuration for multi-container Docker applications.
+
+### `Dockerfile`
+Docker build configuration.
+
+### `global-bundle.pem`
+SSL certificate for AWS DocumentDB connections.
+
+### `jest.config.js`
+Configuration file for Jest testing framework.
+
+---
+
+## Available Scripts
+
+In the project directory, you can run the following scripts:
+
+### `npm start`
+Build the project and then start the server.
+
+```bash
+npm run start
+```
+
+### `npm run build`
+Clean previous builds and compile the TypeScript code.
+
+```bash
+npm run build
+```
+
+### `npm run serve`
+Run the compiled server using Node.js.
+
+```bash
+npm run serve
+```
+
+### `npm run watch`
+Run the TypeScript compiler and the Node.js server in "watch" mode, meaning it will automatically rebuild and reload the server whenever you change a file.
+
+```bash
+npm run watch
+```
+
+### `npm run watch-node`
+Run `nodemon` on the built server files, allowing the server to restart automatically whenever a change is detected.
+
+```bash
+npm run watch-node
+```
+
+### `npm run clean`
+Clean the `build` directory before rebuilding.
+
+```bash
+npm run clean
+```
+
+### `npm run build-ts`
+Compile the TypeScript files into JavaScript.
+
+```bash
+npm run build-ts
+```
+
+### `npm run check`
+Run TypeScript's type checking without emitting compiled files.
+
+```bash
+npm run check
+```
+
+### `npm run eslint`
+Run ESLint on all JavaScript and TypeScript files in the project.
+
+```bash
+npm run eslint
+```
+
+### `npm run upgrade`
+Update both `devDependencies` and `dependencies` to their latest versions.
+
+```bash
+npm run upgrade
+```
+
+### `npm run upgrade-latest`
+Use `npm-check-updates` to upgrade all the dependencies to their latest versions.
+
+```bash
+npm run upgrade-latest
+```
+
+### `npm run test`
+Run Jest for testing with coverage and verbose output.
+
+```bash
+npm run test
+```
+
+---
+
+### Notes:
+
+- **`concurrently`**: Runs multiple npm commands in parallel.
+- **`nodemon`**: Watches for file changes and restarts the server.
+- **`eslint`**: Ensures that the code follows the specified coding standards.
+- **`jest`**: Runs unit and integration tests.
+
+---
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature-name`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/your-feature-name`).
+5. Open a Pull Request.
+
+---

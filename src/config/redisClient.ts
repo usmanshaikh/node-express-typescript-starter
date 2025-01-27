@@ -5,14 +5,10 @@ const redisClient = createClient({
   url: `redis://${config.redis.host}:${config.redis.port}`,
 });
 
+// redisClient.on('connect', () => console.log('Cache is connecting'));
+// redisClient.on('ready', () => console.log('Cache is ready'));
+// redisClient.on('end', () => console.log('Cache disconnected'));
+// redisClient.on('reconnecting', () => console.log('Cache is reconnecting'));
+// redisClient.on('error', (e) => console.log(e));
+
 export default redisClient;
-
-// Install Redis on Windows
-// https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/
-// How to install Linux on Windows with WSL
-// https://learn.microsoft.com/en-us/windows/wsl/install
-
-// > wsl -d Ubuntu
-// > sudo service redis-server start
-// > redis-cli
-// > ping
