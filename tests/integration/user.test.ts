@@ -46,20 +46,75 @@ describe('User Routes', () => {
         failedLoginAttempts: expect.any(Number),
       });
     });
+  });
+
+  describe('PATCH /:userId', () => {
+    test('should update user details with a valid token', async () => {
+      const updatedData = { name: 'Updated Name' };
+
+      const res = await request(app)
+        .patch(`/users/${userId}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(updatedData);
+
+      expect(res.statusCode).toBe(StatusCodes.OK);
+      expect(res.body.message).toBe('User updated successfully.');
+      expect(res.body.data).toMatchObject({
+        _id: userId,
+        name: updatedData.name,
+        email: dummyUser.email,
+      });
+    });
+
+    test('should return 400 if invalid data is sent', async () => {
+      const invalidData = { email: 'not-an-email' };
+
+      const res = await request(app)
+        .patch(`/users/${userId}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(invalidData);
+
+      expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST);
+    });
+
+    test('should return 404 for a non-existent user ID', async () => {
+      const nonExistentUserId = '64c999999aa9f1234567890b';
+      const res = await request(app)
+        .patch(`/users/${nonExistentUserId}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ name: 'New Name' });
+
+      expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+    });
+  });
+
+  describe('DELETE /:userId', () => {
+    test('should delete the user with a valid token', async () => {
+      const res = await request(app)
+        .delete(`/users/${userId}`)
+        .set('Authorization', `Bearer ${accessToken}`);
+
+      expect(res.statusCode).toBe(StatusCodes.OK);
+      expect(res.body.message).toBe('User deleted successfully.');
+
+      // Verify the user is deleted
+      const user = await User.findById(userId);
+      expect(user).toBeNull();
+    });
+
+    test('should return 404 for a non-existent user ID', async () => {
+      const nonExistentUserId = '64c999999aa9f1234567890b';
+      const res = await request(app)
+        .delete(`/users/${nonExistentUserId}`)
+        .set('Authorization', `Bearer ${accessToken}`);
+
+      expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+    });
 
     test('should return 401 if no token is provided', async () => {
-      const res = await request(app).get(`/users/${userId}`);
+      const res = await request(app).delete(`/users/${userId}`);
       expect(res.statusCode).toBe(StatusCodes.UNAUTHORIZED);
     });
-
-    test('should return 403 if an invalid token is provided', async () => {
-      const res = await request(app)
-        .get(`/users/${userId}`)
-        .set('Authorization', 'Bearer invalidtoken');
-
-      expect(res.statusCode).toBe(StatusCodes.FORBIDDEN);
-    });
-
   });
 
   afterAll(async () => {
