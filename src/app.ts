@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import helmet from 'helmet';
 import compression from 'compression';
 import { errorHandler, rateLimiter, morgan } from './middlewares';
@@ -23,7 +24,8 @@ app.use(express.json()); // Middleware for parsing JSON request bodies
 app.use(cors());
 
 // Static file serving from 'public' folder
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'src', 'public')));
+app.use('/favicon.ico', express.static(path.join(__dirname, 'public', 'imgs', 'favicon.ico')));
 
 // Rate limiter to prevent abuse and overload
 app.use(rateLimiter);

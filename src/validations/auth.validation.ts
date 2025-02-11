@@ -31,3 +31,28 @@ export const refreshTokens = {
     refreshToken: Joi.string().required(),
   }),
 };
+
+export const forgotPassword = {
+  body: Joi.object().keys({
+    email: Joi.string().email().required(),
+  }),
+};
+
+export const resetPassword = {
+  query: Joi.object().keys({
+    token: Joi.string().required(),
+  }),
+  body: Joi.object().keys({
+    password: Joi.string()
+      .required()
+      .min(6)
+      .pattern(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/)
+      .message(MESSAGES.PASSWORD_REQUIREMENTS),
+  }),
+};
+
+export const verifyEmail = {
+  query: Joi.object().keys({
+    token: Joi.string().required(),
+  }),
+};

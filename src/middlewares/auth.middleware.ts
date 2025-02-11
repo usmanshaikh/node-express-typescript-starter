@@ -1,18 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { Types } from 'mongoose';
 import { jwtHelper } from '../helpers';
 import { MESSAGES } from '../constants';
 
-// Extend the Request interface to add a `user` property
-interface CustomRequest extends Request {
-  user?: Types.ObjectId;
-}
-
-const authenticateJWT = (
-  req: CustomRequest,
-  res: Response,
-  next: NextFunction,
-): void => {
+const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -34,7 +24,8 @@ const authenticateJWT = (
     return;
   }
 
-  req.user = new Types.ObjectId(payload.sub);
+  res.locals.user = payload;
+
   next();
 };
 

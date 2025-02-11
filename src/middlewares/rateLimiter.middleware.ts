@@ -2,8 +2,8 @@ import rateLimit from 'express-rate-limit';
 import { MESSAGES } from '../constants';
 
 const rateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  windowMs: 60 * 1000, // 1 minute (60 seconds)
+  max: 200, // Limit each IP to 200 requests per windowMs
   message: {
     status: 'error',
     statusCode: 429,

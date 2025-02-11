@@ -3,16 +3,11 @@ import { Response } from 'express';
 interface ResponseOptions {
   res: Response;
   statusCode: number;
-  message: string;
+  message?: string;
   data?: any;
 }
 
-export const sendResponse = ({
-  res,
-  statusCode,
-  message,
-  data,
-}: ResponseOptions) => {
+export const sendResponse = ({ res, statusCode, message = 'Success', data }: ResponseOptions) => {
   const response: any = {
     status: statusCode >= 400 ? 'error' : 'success',
     message,

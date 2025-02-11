@@ -35,7 +35,9 @@ const initializeServer = async () => {
     await connectDB();
     logger.info('Connected to MongoDB');
 
-    await redisClient.connect();
+    if (!redisClient.status || redisClient.status !== 'ready') {
+      await redisClient.connect();
+    }
     logger.info('Connected to Redis');
 
     server = app.listen(config.port, () => {

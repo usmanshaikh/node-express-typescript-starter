@@ -1,16 +1,7 @@
 import Joi from 'joi';
 import { MESSAGES } from '../constants';
 
-export const getUser = {
-  params: Joi.object().keys({
-    userId: Joi.string().required(),
-  }),
-};
-
 export const updateUser = {
-  params: Joi.object().keys({
-    userId: Joi.string().required(),
-  }),
   body: Joi.object()
     .keys({
       email: Joi.string().email(),
@@ -21,10 +12,4 @@ export const updateUser = {
       name: Joi.string(),
     })
     .min(1),
-};
-
-export const deleteUser = {
-  params: Joi.object().keys({
-    userId: Joi.string().required(),
-  }),
 };
