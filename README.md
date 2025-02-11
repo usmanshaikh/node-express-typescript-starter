@@ -50,41 +50,8 @@ This project serves as a scalable starting point for building RESTful APIs with 
    ```
 4. Run the application:
    ```bash
-   npm start
+   npm run watch
    ```
-
----
-
-## Setting Up Redis
-
-To run Redis locally, you can follow the steps below based on your operating system.
-
-### For Windows Users
-
-1. Install Redis on Windows:
-   Follow the official guide to install Redis on Windows: [Install Redis on Windows](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/)
-
-2. Install WSL (Windows Subsystem for Linux) on Windows:
-   To install a Linux distribution like Ubuntu on Windows, follow the guide here: [Install Linux on Windows with WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
-
-3. Run Redis on WSL:
-   - Open CMD and run:
-     ```bash
-     wsl -d Ubuntu
-     ```
-   - Start the Redis server:
-     ```bash
-     sudo service redis-server start
-     ```
-   - When prompted, use the password: `usman`
-   - Start the Redis CLI to interact with Redis:
-     ```bash
-     redis-cli
-     ```
-   - Check if Redis is running:
-     ```bash
-     ping
-     ```
 
 ---
 
@@ -159,9 +126,6 @@ Validation schemas and logic for API request payloads.
 ### `tests/`
 Unit and integration tests, along with test setup files.
 
-### `.dockerignore`
-Files and folders ignored during Docker builds.
-
 ### `.env` / `.env.example`
 Environment variable configurations.
 
@@ -170,15 +134,6 @@ ESLint configuration and ignored files.
 
 ### `.prettierignore` / `.prettierrc`
 Prettier configuration and ignored files.
-
-### `docker-compose.yml`
-Configuration for multi-container Docker applications.
-
-### `Dockerfile`
-Docker build configuration.
-
-### `global-bundle.pem`
-SSL certificate for AWS DocumentDB connections.
 
 ### `jest.config.js`
 Configuration file for Jest testing framework.
@@ -250,20 +205,6 @@ Run ESLint on all JavaScript and TypeScript files in the project.
 
 ```bash
 npm run eslint
-```
-
-### `npm run upgrade`
-Update both `devDependencies` and `dependencies` to their latest versions.
-
-```bash
-npm run upgrade
-```
-
-### `npm run upgrade-latest`
-Use `npm-check-updates` to upgrade all the dependencies to their latest versions.
-
-```bash
-npm run upgrade-latest
 ```
 
 ### `npm run test`
